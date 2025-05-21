@@ -74,3 +74,35 @@ python3 kpi.py --help
 - Ensure your CSV file has the required columns for the selected KPI.
 - Dates should be in a format recognizable by pandas (e.g., 'YYYY-MM-DD').
 - For NVT, teams can be excluded to focus on relevant teams only.
+
+## Example of use
+
+```bash
+grunt@grunt:/mnt/c/Users/Grunt/Documents/GitHub/AppSec-KPI-metrics$ python3 kpi.py TTRC vulnerability_test_data.csv --created-col "Date Created" --resolved-col "Date Resolved" --severity-col "Severity Level"
+
+    ___               _____              __  ___     __       _
+   /   |  ____  ____ / ___/___  _____   /  |/  /__  / /______(_)_________
+  / /| | / __ \/ __ \\__ \/ _ \/ ___/  / /|_/ / _ \/ __/ ___/ / ___/ ___/
+ / ___ |/ /_/ / /_/ /__/ /  __/ /__   / /  / /  __/ /_/ /  / / /__(__  )
+/_/  |_/ .___/ .___/____/\___/\___/  /_/  /_/\___/\__/_/  /_/\___/____/
+      /_/   /_/
+
+Made by grunt.ar
+
+/mnt/c/Users/Grunt/Documents/GitHub/AppSec-KPI-metrics/kpi.py:88: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  valid_dates['Remediation Time'] = (valid_dates[resolved_col] - valid_dates[created_col]).dt.days
+
+Average remediation time by severity:
+Severity Level
+Minor       143.29
+Moderate    189.00
+Severe      191.77
+Name: Remediation Time, dtype: float64
+
+``` 
+
+- ![alt text](image.png)
