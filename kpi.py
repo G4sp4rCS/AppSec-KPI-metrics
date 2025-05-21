@@ -3,10 +3,23 @@
 import argparse
 import sys
 import pandas as pd
+from colorama import Fore, Style
 import matplotlib.pyplot as plt
 
 # Define closed statuses
 CLOSED_STATUSES = ['done', 'cancelled', 'resolved']
+def print_banner():
+    banner = f"""
+{Fore.CYAN}    ___               _____              __  ___     __       _{Style.RESET_ALL}
+{Fore.CYAN}   /   |  ____  ____ / ___/___  _____   /  |/  /__  / /______(_)_________{Style.RESET_ALL}
+{Fore.CYAN}  / /| | / __ \\/ __ \\\\__ \\/ _ \\/ ___/  / /|_/ / _ \\/ __/ ___/ / ___/ ___/{Style.RESET_ALL}
+{Fore.CYAN} / ___ |/ /_/ / /_/ /__/ /  __/ /__   / /  / /  __/ /_/ /  / / /__(__  ){Style.RESET_ALL}
+{Fore.CYAN}/_/  |_/ .___/ .___/____/\\___/\\___/  /_/  /_/\\___/\\__/_/  /_/\\___/____/{Style.RESET_ALL}
+{Fore.CYAN}      /_/   /_/                                              {Style.RESET_ALL}
+                                              
+{Fore.YELLOW}Made by grunt.ar{Style.RESET_ALL}
+"""
+    print(banner)
 
 def load_data(csv_path: str) -> pd.DataFrame:
     """Load CSV data from the specified path."""
@@ -90,7 +103,18 @@ def calc_ttrc(data: pd.DataFrame, created_col: str, resolved_col: str, severity_
     print(ttr_by_sev.round(2))
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description="Calculate AppSec KPIs from a CSV file.")
+    print_banner()  # Mostrar el banner al inicio
+    parser = argparse.ArgumentParser(
+        description="Calculate AppSec KPIs from a CSV file.",
+        epilog="""
+Examples:
+  python3 kpi.py NACV all-issues.csv
+  python3 kpi.py TTR all-issues.csv --created-col "Created" --resolved-col "Resolved"
+  python3 kpi.py NVT all-issues.csv --team-col "Custom field (Squad Plataforma)" --exclude-teams "None" "Dev Ops"
+  python3 kpi.py TTRC all-issues.csv --severity-col "Custom field (Severity)"
+""",
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     parser.add_argument('kpi', choices=['NACV', 'TTR', 'NVT', 'TTRC'], help="The KPI to calculate.")
     parser.add_argument('csv_file', help="Path to the CSV file.")
     parser.add_argument('--priority-col', default='Priority', help="Name of the priority column.")
